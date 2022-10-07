@@ -3,24 +3,32 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Pro MERN Stack</title>
+  <title>Journal</title>
 
   <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
   <script src="https://unpkg.com/@babel/polyfill@7/dist/polyfill.min.js"></script>
+
+  <script src="https://kit.fontawesome.com/864b08d14f.js" crossorigin="anonymous"></script>
   <style>
-    table.bordered-table th, td {border: 1px solid silver; padding: 4px;}
-    table.bordered-table {border-collapse: collapse;}
-    table.VisualTable {margin: 10px; width: 80%; padding:10px;}
-    td.VisualBusy {background-color: orange; width: 50%;}
-    td.VisualFree {background-color: grey; width: 50%;}
+    div.register-container {  width: 768px; max-width: 100%; min-height: 480px;  margin:0 auto;  background-color: white;
+               box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 10px 10px 10px rgba(0, 0, 0, .22); border-radius: 10px; overflow: hidden;}
+    div.main-page-container {  width: 768px; max-width: 100%; min-height: 480px;  margin:0 auto;  background-color: white;
+               box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 10px 10px 10px rgba(0, 0, 0, .22); border-radius: 10px; overflow: hidden;}
+    div.left-align {float: left;}
+    div.right-align {float: right;}
+    form.register {width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+    div.social-container {display: flex;}
+    div.social-container a {width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; line-height: 40px; text-align: center; color: #333; margin: 20px 8px;}
+    div.social-container a:hover {background-color: #222F3E; color: white; border-color: #CBCBCC;}
+    a.forget {height: 20px; color: #9AA9B7; text-decoration: none; margin: 5px 0 15px; font-size: 12px; text-transform: capitalize;}
+    a.forget:hover {border-bottom: 2px red solid;}
+  
   </style>
 </head>
 
 <body>
   <div id="contents"></div>
-
   <script src="/App.js"></script>
 </body>
 
