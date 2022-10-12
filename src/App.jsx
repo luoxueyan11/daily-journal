@@ -6,6 +6,22 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const form = document.forms.login;
+    const users = this.props.users;
+    const email = form.email.value;
+    const password = form.password.value;
+    var isSuccessful = false; 
+    for (var i=0; i<users.length; i++){
+      if (email == users[i].email && password == users[i].password){
+        isSuccessful = true;
+        this.props.switchPage(2);
+      } 
+      }
+    if (!isSuccessful) {
+      alert("The username or password is incorrect.")
+    }   
+    form.email.value = "";
+    form.password.value = "";
   }
 
   render() {
@@ -146,7 +162,7 @@ class Journal extends React.Component {
 class InitialPage extends React.Component {
 	constructor() {
 	super();
-  this.state = { users: [], selector: 1}; 
+  this.state = { selector: 1}; 
   this.signUpUser = this.signUpUser.bind(this);
 	}
 
@@ -160,9 +176,9 @@ class InitialPage extends React.Component {
   }
 
   signUpUser(user){
-    const temp = this.state.users;
-    temp.push(user)
-    this.setState({users: temp});
+    const temp = this.props.users;
+    temp.push(user);
+    this.props.updateUsers(temp);
   }
 
 	render(){
@@ -174,9 +190,9 @@ class InitialPage extends React.Component {
     <form className="register">
     <h4>Website title</h4>
     <div>
-      {this.state.selector == 1 && (<Homepage users={this.state.users} selector={this.state.selector} setSelector={this.setSelector}/>)}
-      {this.state.selector == 2 && (<Login users={this.state.users}/>)}
-      {this.state.selector == 3 && (<Signup users={this.state.users} signUpUser={this.signUpUser}/>)}
+      {this.state.selector == 1 && (<Homepage users={this.props.users} selector={this.state.selector} setSelector={this.setSelector}/>)}
+      {this.state.selector == 2 && (<Login users={this.props.users} switchPage={this.props.switchPage}/>)}
+      {this.state.selector == 3 && (<Signup users={this.props.users} signUpUser={this.signUpUser}/>)}
   </div>
   </form>
 </div>
@@ -199,7 +215,7 @@ class MainPage extends React.Component {
     return (
 	<div className="main-page-container">
     <div className="right-align">
-      <div className="right-align"><button onClick={()=>{}}>Log out</button></div>
+      <div className="right-align"><button onClick={()=>{this.props.switchPage(1)}}>Log out</button></div>
       <br></br>
       <br></br>
       <button onClick={()=>{this.setSelector(1)}}>TIMELINE</button>
@@ -220,8 +236,62 @@ class MainPage extends React.Component {
 }
 
 
-const element = <InitialPage />;
+
+
+
+class WebPage extends React.Component{
+  constructor() {
+  super();
+  this.state = { users: [], selector: 1}; 
+  this.switchPage = this.switchPage.bind(this);
+  this.updateUsers = this.updateUsers.bind(this);
+  }
+
+  setSelector(value){
+    this.setState({selector:value});
+  }
+
+  switchPage(selector){
+    this.setSelector(selector);
+  }
+
+  updateUsers(users){
+    this.setState({users:users});
+  }
+
+  renderSwitch(param) {
+    switch(param) {
+      case 1:
+        return (
+          <div>
+            <p></p>
+            <InitialPage users = {this.state.users} switchPage = {this.switchPage} updateUsers = {this.updateUsers}/>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <MainPage switchPage = {this.switchPage}/>
+          </div>
+        );
+    }
+  }
+
+  render() {
+    return (
+      <div>   
+        <div>
+          {this.renderSwitch(this.state.selector)}
+        </div>
+      </div>
+    );
+  }
+}
+
+
+//const element = <InitialPage />;
 //const element = <MainPage />;
+const element = <WebPage />;
 
 
 ReactDOM.render(element, document.getElementById('contents'));
