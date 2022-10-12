@@ -259,30 +259,11 @@ class WebPage extends React.Component{
     this.setState({users:users});
   }
 
-  renderSwitch(param) {
-    switch(param) {
-      case 1:
-        return (
-          <div>
-            <p></p>
-            <InitialPage users = {this.state.users} switchPage = {this.switchPage} updateUsers = {this.updateUsers}/>
-          </div>
-        );
-      case 2:
-        return (
-          <div>
-            <MainPage switchPage = {this.switchPage}/>
-          </div>
-        );
-    }
-  }
-
   render() {
     return (
       <div>   
-        <div>
-          {this.renderSwitch(this.state.selector)}
-        </div>
+        {this.state.selector == 1 && (<InitialPage users = {this.state.users} switchPage = {this.switchPage} updateUsers = {this.updateUsers}/>)}
+        {this.state.selector == 2 && (<MainPage switchPage = {this.switchPage}/>)}
       </div>
     );
   }
