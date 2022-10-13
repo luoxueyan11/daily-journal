@@ -140,13 +140,13 @@ const initialPlan = [
     description: "This is task 2",
     checked: false
   },
-  {
-    id : 3,
-    startTime : "20:00 pm",
-    endTime : "21:00 pm",
-    description: "This is task 3",
-    checked: false
-  }
+  // {
+  //   id : 3,
+  //   startTime : "20:00 pm",
+  //   endTime : "21:00 pm",
+  //   description: "This is task 3",
+  //   checked: false
+  // }
 ]
 
 
@@ -170,11 +170,11 @@ class PlanRows extends React.Component {
     return (
       plans.map(plan => 
         <tr>
-          <td>{plan.id.toString()}</td>
-          <td>{plan.startTime.toString()}</td>
-          <td>{plan.endTime.toString()}</td>
-          <td>{plan.description.toString()}</td>
-          <td><input 
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.id.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.startTime.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.endTime.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.description.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
             type="checkbox" 
             checked={plan.checked}
             value={plan.id}
@@ -191,6 +191,7 @@ class Plan extends React.Component {
     super(); 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   completePlans(id){
@@ -201,11 +202,31 @@ class Plan extends React.Component {
     this.props.uncheckPlans(id);
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    const form = document.forms.addPlan;
+    const newStartTime = form.startTime.value;
+    const newEndTime = form.endTime.value;
+    const newDescription = form.description.value;
+    let newPlan = {id:this.props.plans.length + 1,
+                    startTime:newStartTime, endTime:newEndTime, 
+                    description:newDescription, checked:false};
+    this.props.addPlans(newPlan);
+    form.startTime.value = "";
+    form.endTime.value = "";
+    form.description.value = "";
+  }
+
   render() {
     return (
       <div className="register-container">
-        <form name="signup" className="register">
-          <h2>Plan</h2>
+        <form name="addPlan" className="register" onSubmit={this.handleSubmit}>
+          <p>Input start time, end time and description to add a new plan.</p>
+          <input type="startTime" name="startTime" id="startTime" placeholder="Start Time" /><br></br>
+          <input type="endTime" name="endTime" placeholder="End Time" /><br></br>
+          <input id="description" name="description" style={{"width": "300px", "height": "60px"}} placeholder="Enter description here..."/><br></br>
+          <button>Add New Plan</button><br></br>
+
             <table className="bordered-table">
             <thead>
               <tr>
@@ -237,10 +258,10 @@ class JournalRows extends React.Component {
     return (
       completed.map(p => 
         <tr>
-          <td>{p.startTime.toString()}</td>
-          <td>{p.endTime.toString()}</td>
-          <td>{p.description.toString()}</td>
-          <td><input 
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.startTime.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.endTime.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.description.toString()}</td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
             type="button" 
             value="Edit"
             onClick={(e) => {
@@ -362,10 +383,17 @@ class MainPage extends React.Component {
   this.state = {plans:initialPlan, completed:[], selector: 1}; 
   this.completePlans = this.completePlans.bind(this);
   this.uncheckPlans = this.uncheckPlans.bind(this);
+  this.addPlans = this.addPlans.bind(this);
 	}
 
   setSelector(value){
     this.setState({selector:value});
+  }
+
+  addPlans(plan){
+    const temp = this.state.plans;
+    temp.push(plan);
+    this.setState({plans:temp});
   }
 
   completePlans(id){
@@ -429,7 +457,10 @@ class MainPage extends React.Component {
     <form className="register">
     <div>
       {this.state.selector == 1 && (<TimeLine/>)}
-      {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}/>)}
+      {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} 
+                                          completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}
+                                          addPlans={this.addPlans}
+                                          />)}
       {this.state.selector == 3 && (<Journal completed={this.state.completed}/>)}
   </div>
   </form>
@@ -475,8 +506,8 @@ class WebPage extends React.Component{
 
 
 //const element = <InitialPage />;
-//const element = <MainPage />;
-const element = <WebPage />;
+const element = <MainPage />;
+//const element = <WebPage />;
 
 
 ReactDOM.render(element, document.getElementById('contents'));
