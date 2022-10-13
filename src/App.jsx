@@ -130,23 +130,16 @@ const initialPlan = [
     id : 1,
     startTime : "10:00 am",
     endTime : "11:00 am",
-    description: "This is task 1",
+    description: "This is a task",
     checked: false
   },
   {
     id : 2,
     startTime : "14:00 pm",
     endTime : "16:00 pm",
-    description: "This is task 2",
+    description: "This is a task",
     checked: false
   },
-  // {
-  //   id : 3,
-  //   startTime : "20:00 pm",
-  //   endTime : "21:00 pm",
-  //   description: "This is task 3",
-  //   checked: false
-  // }
 ]
 
 
@@ -157,12 +150,15 @@ class PlanRows extends React.Component {
   }
 
   handleChange(e, id,checked) {
-
     if (!checked){
       this.props.completePlans(id);
     } else {
       this.props.uncheckPlans(id);
     }
+  }
+
+  handleDelete(e, id) {
+    this.props.deletePlans(id);
   }
 
   render() {
@@ -177,8 +173,13 @@ class PlanRows extends React.Component {
           <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
             type="checkbox" 
             checked={plan.checked}
-            value={plan.id}
+            //value={plan.id}
             onChange={e => this.handleChange(e, plan.id, plan.checked)}
+            /></td>
+          <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
+            type="button" 
+            value="Delete"
+            onClick={e => this.handleDelete(e, plan.id)}
             /></td>
         </tr>
       )
@@ -190,12 +191,17 @@ class Plan extends React.Component {
   constructor() {
     super(); 
     this.completePlans = this.completePlans.bind(this);
+    this.deletePlans = this.deletePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   completePlans(id){
     this.props.completePlans(id);
+  }
+
+  deletePlans(id){
+    this.props.deletePlans(id);
   }
 
   uncheckPlans(id){
@@ -235,10 +241,13 @@ class Plan extends React.Component {
                 <th>End Time</th>
                 <th>Description</th>
                 <th>Completion Status</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              <PlanRows plans={this.props.plans} completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}/>
+              <PlanRows plans={this.props.plans} 
+                        deletePlans={this.deletePlans}
+                        completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}/>
             </tbody>
             </table>
         </form>
@@ -264,11 +273,7 @@ class JournalRows extends React.Component {
           <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
             type="button" 
             value="Edit"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href='#editor';
-              this.props.switchPage(2);
-              }}
+            onClick={(e) => {this.props.switchPage(2);}}
             /></td>
         </tr>
       )
@@ -384,6 +389,7 @@ class MainPage extends React.Component {
   this.completePlans = this.completePlans.bind(this);
   this.uncheckPlans = this.uncheckPlans.bind(this);
   this.addPlans = this.addPlans.bind(this);
+  this.deletePlans = this.deletePlans.bind(this);
 	}
 
   setSelector(value){
@@ -394,6 +400,19 @@ class MainPage extends React.Component {
     const temp = this.state.plans;
     temp.push(plan);
     this.setState({plans:temp});
+  }
+
+  deletePlans(id){
+    this.uncheckPlans(id);
+    const plans = this.state.plans;
+    const updatePlans = plans.filter(function(plan){
+      return plan.id != id;
+    })
+    for (var i=0; i<updatePlans.length; i++){
+      updatePlans[i].id = i+1;
+    }
+
+    this.setState({plans:updatePlans});
   }
 
   completePlans(id){
@@ -460,6 +479,7 @@ class MainPage extends React.Component {
       {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} 
                                           completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}
                                           addPlans={this.addPlans}
+                                          deletePlans={this.deletePlans}
                                           />)}
       {this.state.selector == 3 && (<Journal completed={this.state.completed}/>)}
   </div>
@@ -506,8 +526,8 @@ class WebPage extends React.Component{
 
 
 //const element = <InitialPage />;
-const element = <MainPage />;
-//const element = <WebPage />;
+//const element = <MainPage />;
+const element = <WebPage />;
 
 
 ReactDOM.render(element, document.getElementById('contents'));
