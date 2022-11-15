@@ -1,3 +1,74 @@
+// import { useCallback, useEffect, useRef} from 'react';
+// import GoogleAuth from './GoogleAuth.jsx';
+// import TextEditor from './TextEditor.jsx';
+
+import React from 'react';
+import {useState, useCallback} from 'react';
+import ReactDOM from 'react-dom';
+import { GoogleLogin, GoogleLogout, GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+
+
+
+function GoogleAuth() {
+  const [user, setuser] = useState();
+  var loginSuccessful = false; 
+  const logout = () => {
+    console.log('Logged Out');
+    setuser("");
+  }
+  const success = (response) => {
+    var userObject = jwt_decode(response.credential);
+    console.log('Login Success');
+    console.log(response);
+    console.log(userObject)
+    setuser(userObject.name)
+    loginSuccessful = true;
+  }
+  const failure = () => {
+    console.log('Login Failure');
+  }
+  return (
+        <div>
+          {/* <h1>Welcome, {user}</h1> */}
+          <GoogleOAuthProvider clientId="419983708283-m4slss66fqg03rjahki9l3d8bu297uk0.apps.googleusercontent.com">
+          <GoogleLogin
+            onSuccess={success}
+            onFailure={failure}
+          />         
+          </GoogleOAuthProvider>
+        </div>)
+}
+
+function TextEditor(){
+  var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    [{ 'color': [] }, { 'background': [] }], 
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+    ['link', 'image', 'video']
+  ];
+
+
+  const wrapperRef = useCallback((wrapper) => {
+    if (wrapper == null) return 
+
+    wrapper.innerHTML = ""
+    const editor = document.createElement("div")
+    wrapper.append(editor)
+    new Quill(editor, {
+      modules: {
+        toolbar: toolbarOptions
+      }, 
+      theme: "snow"
+    });
+  }, [])
+
+  return <div id="container" ref={wrapperRef}></div>
+}
+
 class Login extends React.Component {
   constructor() {
     super();
@@ -30,10 +101,11 @@ class Login extends React.Component {
       <div className="register-container">
         <form name="login" className="register" onSubmit={this.handleSubmit}>
           <h2>Log in to your account</h2>
+          <div><GoogleAuth/></div><br></br>
           <div className="social-container">
-            <a href="#"><i className="fa-brands fa-qq"></i></a>
+            {/* <a href="#"><i className="fa-brands fa-qq"></i></a>
             <a href="#"><i className="fa-brands fa-weixin"></i></a>
-            <a href="#"><i className="fa-brands fa-weibo"></i></a>
+            <a href="#"><i className="fa-brands fa-weibo"></i></a> */}
           </div>
           <input type="email" name="email" id="email" placeholder="Email" /><br></br>
           <input type="password" name="password" placeholder="Password" /><br></br>
@@ -74,9 +146,9 @@ class Signup extends React.Component {
         <form name="signup" className="register" onSubmit={this.handleSubmit}>
           <h2>Sign up an account</h2>
           <div className="social-container">
-            <a href="#"><i className="fa-brands fa-qq"></i></a>
+            {/* <a href="#"><i className="fa-brands fa-qq"></i></a>
             <a href="#"><i className="fa-brands fa-weixin"></i></a>
-            <a href="#"><i className="fa-brands fa-weibo"></i></a>
+            <a href="#"><i className="fa-brands fa-weibo"></i></a> */}
           </div>
           <input type="email" name="email" id="email" placeholder="Email" /><br></br>
           <input type="password" name="password" placeholder="Password" /><br></br>
@@ -327,6 +399,7 @@ class Journal extends React.Component {
               Editor
             </div>
             <div><button onClick={(e) => {this.switchPage(1);}}>back</button></div>
+            <div><TextEditor/></div>
           </div>
 
         );
@@ -334,11 +407,11 @@ class Journal extends React.Component {
   }
 
   render() {
+
     return (
       <div>
         {this.renderSwitch(this.state.selector)}
       </div>
-      
     );
   }
 }
@@ -400,6 +473,7 @@ class MainPage extends React.Component {
     const temp = this.state.plans;
     temp.push(plan);
     this.setState({plans:temp});
+    console.log(temp)
   }
 
   deletePlans(id){
@@ -525,8 +599,8 @@ class WebPage extends React.Component{
 }
 
 
-//const element = <InitialPage />;
-//const element = <MainPage />;
+// const element = <InitialPage />;
+// const element = <MainPage />;
 const element = <WebPage />;
 
 
