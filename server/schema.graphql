@@ -1,0 +1,13 @@
+type User {
+	_id: ID!
+	email: String!
+    password: String!
+	firstName: String!
+    lastName: String!
+}
+
+
+type Query {
+	# listUsers is a placeholder function
+	listUsers:[User]! 
+}
