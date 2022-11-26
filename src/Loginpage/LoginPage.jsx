@@ -73,7 +73,7 @@ class Login extends React.Component {
             </div>
 
             <div className="transLink1">
-                <Link to="/signUp">Don't have an account? <span className="transLink2">Click here to sign up.</span></Link>
+                <Link to="/signUp">Don't have an account? <span className="transLink2">Click to sign up.</span></Link>
             </div>
         </Form>
 
