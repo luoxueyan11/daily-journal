@@ -9,49 +9,49 @@ import Journal from './Journal'
 import Plan from './Plan'
 import Timeline from './Timeline'
 
-const initialPlan = [
-    {
-      id : 1,
-      startTime : "10:00",
-      endTime : "11:00",
-      description: "This is a task",
-      checked: false
-    },
-    {
-      id : 2,
-      startTime : "14:00",
-      endTime : "16:00",
-      description: "This is a task",
-      checked: false
-    },
-  ]
+// const initialPlan = [
+//     {
+//       id : 1,
+//       startTime : "10:00",
+//       endTime : "11:00",
+//       description: "This is a task",
+//       checked: false
+//     },
+//     {
+//       id : 2,
+//       startTime : "14:00",
+//       endTime : "16:00",
+//       description: "This is a task",
+//       checked: false
+//     },
+//   ]
 
-const initialJournal = [
-    {
-        id : 1,
-        startTime : "10:00",
-        endTime : "11:00",
-        description: "This is a task description",
-        content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-    },
+// const initialJournal = [
+//     {
+//         id : 1,
+//         startTime : "10:00",
+//         endTime : "11:00",
+//         description: "This is a task description",
+//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
+//     },
 
-    {
-        id : 2,
-        startTime : "16:00",
-        endTime : "18:00",
-        description: "This is a task description",
-        content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-    },
+//     {
+//         id : 2,
+//         startTime : "16:00",
+//         endTime : "18:00",
+//         description: "This is a task description",
+//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
+//     },
 
-    {
-        id : 3,
-        startTime : "20:00",
-        endTime : "22:00",
-        description: "This is a task description",
-        content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-    }
+//     {
+//         id : 3,
+//         startTime : "20:00",
+//         endTime : "22:00",
+//         description: "This is a task description",
+//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
+//     }
 
-]
+// ]
 
 
 
@@ -59,7 +59,7 @@ class MainPage extends React.Component {
     constructor(){
     super();
     this.switchPage = this.switchPage.bind(this);
-    this.state = {plans:initialPlan, completed:[], selector: 1, journals:initialJournal}; 
+    this.state = {plans:[], completed:[], selector: 1, journals:[]}; 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.addPlans = this.addPlans.bind(this);
