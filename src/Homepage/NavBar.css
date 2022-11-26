@@ -1,0 +1,28 @@
+.NavBarWrapper {
+    width: 60%;
+}
+
+.navbar-brand {
+    font-family: 'Gabriola';
+    font-weight: bold;
+    font-style: oblique;
+    font-size: 4rem;
+    color: white !important;
+    margin-left: -7%;
+}
+
+.navbar-collapse {
+    margin-right: -8%;
+}
+
+
+.link a {
+    color: white;
+    font-family: 'Libre Baskerville';
+    text-decoration: none ;
+    padding: 5px 15px;
+}
+
+.link svg {
+    color: white;
+}

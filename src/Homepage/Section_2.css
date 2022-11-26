@@ -1,0 +1,158 @@
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
+
+.section2 {
+    background-image: linear-gradient(darkslategray, darkslategray), linear-gradient(darkslategray, darkslategray), linear-gradient(darkslategray, darkslategray), linear-gradient(darkslategray, darkslategray);
+    background-size: 67% 5px, 47% 5px, 5px 69%, 5px 67%;
+    background-position: right 40px top 0px, bottom 40px left 40px, left 40px bottom 40px, right 40px top 0px;
+    background-repeat: no-repeat;
+    width: 77%;
+    height: 63%;
+	margin: auto;
+	font-size: 12px;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+  .slick-arrow {
+      background-color: grey !important; 
+      width:20px;
+      height:20px;
+  }
+
+  .recommend {
+    font-family: 'Montserrat';
+    font-style: oblique;
+    margin-bottom: 2px;
+    margin-top:20px;
+    padding-bottom: 0px;
+    font-weight: bolder;
+  }
+
+  .recommend .subtitle{
+    font-weight: lighter;
+  }
+
+  .section2:before {
+    content: "";
+    background: #fff;
+    position: absolute;
+    left: 7%;
+    top: 7%;
+    box-shadow: rgb(0 0 0 / 50%) 2px 2px 5px;
+    background-image: linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc);
+    background-size: 63% 1px, 44% 1px, 1px 63%, 1px 43%;
+    background-position: right 40px top 40px, bottom 0px left 40px, left 40px bottom 0px, right 40px top 40px;
+    background-repeat: no-repeat;
+    z-index: 9;
+}
+.section2:after {
+    content: "";
+    background: #ffdf70;
+    position: absolute;
+    right: -12%;
+    top: 215px;
+    transform: rotate(-45deg);
+}
+  
+.cardStyle {
+    font-family: 'Monospace', sans-serif;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    width: 70%;
+    color: #ffffff;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  .cardStyle:before {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    top: 100%;
+    content: '';
+    background-color: rgba(51, 51, 51, 0.9);
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    -webkit-transition-delay: 0.25s;
+    transition-delay: 0.25s;
+  }
+
+  .cardStyle img {
+    vertical-align: center;
+    width:120%;
+    backface-visibility: hidden;
+  }
+
+  .cardStyle figcaption {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .cardStyle a, .cardStyle h5 {
+    margin: 2%;
+    opacity: 0;
+    letter-spacing: 1px;
+  }
+
+  .cardStyle a {
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 5px;
+    font-weight: bolder;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 3%;
+  }
+  
+  .cardStyle h5 {
+    font-weight: normal;
+    background-color: #ae895d;
+    font-size: smaller;
+    padding: 3px 3px;
+    margin-top: 4%;
+    margin-bottom: 0%;
+  }
+
+  .cardStyle:hover:before,
+  .cardStyle.hover:before {
+    top: 10px;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+  }
+  
+  .cardStyle:hover a,
+  .cardStyle.hover a,
+  .cardStyle:hover h5,
+  .cardStyle.hover h5 {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .cardStyle:hover a,
+  .cardStyle.hover a {
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+  }
+  
+  .cardStyle:hover h5,
+  .cardStyle.hover h5 {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+  }

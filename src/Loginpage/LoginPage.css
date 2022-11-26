@@ -1,0 +1,70 @@
+.loginPage {
+    display: flex;
+    height: 100vh;
+    background-color:white;
+}
+
+
+.loginPage .content {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginPage .content img {
+    width: 75%;
+    height: 80%;
+    box-shadow: 5 5 300px 300px gainsboro inset;
+}
+
+.content form {
+    padding-top: 2%;
+    padding-bottom: 6%;
+    padding-left: 6%;
+    padding-right: 6%;
+    font-size: 1.5rem;
+}
+
+.content .input_ {
+    width: 400px;
+}
+
+.loginPage .navBarWrapper {
+    background-color:darkslategray;
+    width: 100%;
+    flex: 0 0 auto;
+    position: fixed;
+}
+
+.loginPage button {
+    width: 150px;
+    margin-top: 2%;
+}
+
+.loginPage .footerWrapper {
+    position: fixed;
+    bottom:0;
+    width: 100%;
+}
+
+.loginPage .errorMessage {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.loginPage .transLink1 {
+    font-size: 0.8rem;
+    padding-top: 20px;
+} 
+
+.loginPage .transLink1 a{
+    text-decoration: none;
+    color: black;
+} 
+
+.loginPage .transLink1 .transLink2{
+    text-decoration: underline;
+    color: blue;
+} 
+
