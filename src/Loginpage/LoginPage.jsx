@@ -38,7 +38,7 @@ class Login extends React.Component {
         e.preventDefault();
         if (this.checkInput()) {
             this.props.userLogIn(this.state.customer_email)
-            this.props.history.push("/preparedMain");   //login successful, ask to explore more or not
+            this.props.history.push("/mainpage");   //login successful, ask to explore more or not
         }
         this.setState({ [e.target.name]: "" });   //clear the input box
     }

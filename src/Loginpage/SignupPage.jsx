@@ -61,7 +61,7 @@ class Signup extends React.Component {
         if (this.checkInput()) {
             const temp = this.props.users;
             temp.push(this.state);
-            this.props.usersUpdate(temp);
+            this.props.usersUpdate(temp, this.state.customer_email);
 
             var res = window.confirm("Registration successful! Click ok to log in and explore more features. Else, stay at the current page.");
             if (res == true) { this.props.history.push("/login"); }

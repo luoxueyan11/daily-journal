@@ -24,7 +24,7 @@ class NavBar extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="justify-content-end link" style={{ width: "100%"}}>
                         <Link to="/" >HOME</Link>
-                        {!this.props.userLogIn ? <Link to="/login" >LOGIN </Link> : <Link onClick={this.props.userLogOut} to="/" >LOGOUT </Link>}
+                        {!this.props.userLogIn ? <Link to="/login" >LOGIN </Link> : <Link to="/mainpage" >START </Link>}
                         {!this.props.userLogIn ? <Link to="/signup" >SIGNUP </Link> : <Link onClick={this.props.userLogOut} to="/" >LOGOUT </Link>}
                         <FaUserCircle size={35} />
                     </Nav>
