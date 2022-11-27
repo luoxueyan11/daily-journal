@@ -116,6 +116,7 @@ export default class Plan extends React.Component{
               <table className="bordered-table" style={{ "padding": "12px", "text-align": "center" }}>
                 <thead>
                   <tr>
+                    {/* <th>ID</th> */}
                     <th>Start</th>
                     <th>End</th>
                     <th>Description</th>

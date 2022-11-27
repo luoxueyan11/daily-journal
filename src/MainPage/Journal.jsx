@@ -89,7 +89,7 @@ export default class Journal extends React.Component{
                 <div><button onClick={(e) => {this.switchPage(1);}}>back</button></div>
                 <div>
                   <TextEditor completed={this.props.completed} journalId={this.state.editingId} tracker={this.props.tracker} content={this.props.content}
-                              setJournal={this.props.setJournal} setTracker={this.props.setTracker}/>
+                              setJournal={this.props.setJournal} setTracker={this.props.setTracker} addJournal={this.props.addJournal}/>
                 </div>
               </div>
             );
