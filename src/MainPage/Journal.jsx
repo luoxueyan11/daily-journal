@@ -1,7 +1,7 @@
 import React from 'react'
-import NavBar from './NavBar2'
-import Footer from '../Homepage/Footer'
 import TextEditor from './TextEditor'
+import './Journal.css'
+
 class JournalRows extends React.Component {
     constructor() {
       super(); 
@@ -17,10 +17,10 @@ class JournalRows extends React.Component {
       return (
         completed.map(p => 
           <tr>
-            <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.startTime.toString()}</td>
-            <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.endTime.toString()}</td>
-            <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{p.description.toString()}</td>
-            <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
+            <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{p.startTime.toString()}</td>
+            <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{p.endTime.toString()}</td>
+            <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{p.description.toString()}</td>
+            <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}><input 
               type="button" 
               value="Edit"
               onClick={(e) => {
@@ -60,13 +60,14 @@ export default class Journal extends React.Component{
           case 1:
             return (
               <div className="register-container">
-              <form name="signup" className="register">
-                <h2>Journal</h2>
-                <table className="bordered-table">
+              <h5>Check your journal lists, click Edit to write a corresponding journal.</h5>
+              <form name="signup" className="register" style={{ "text-align": "center" }}>
+              <div style={{ "overflow": "scroll" }}>
+                <table className="bordered-table" style={{ "padding": "12px", "text-align": "center" }}>
                   <thead>
                     <tr>
-                      <th>Start Time</th>
-                      <th>End Time</th>
+                      <th>Start</th>
+                      <th>End</th>
                       <th>Content</th>
                       <th>Edit</th>
                     </tr>
@@ -75,6 +76,7 @@ export default class Journal extends React.Component{
                    <JournalRows completed={this.props.completed} switchPage={this.switchPage} editJournal={this.editJournal}/>
                   </tbody>
                   </table>
+                  </div>
               </form>
             </div>
             );

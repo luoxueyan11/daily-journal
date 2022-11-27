@@ -1,9 +1,5 @@
 import React from 'react'
-import NavBar from './NavBar2'
-import Footer from '../Homepage/Footer'
-
-
-
+import './Plan.css'
 const initialPlan = [
     {
       id : 1,
@@ -44,16 +40,16 @@ render() {
     plans.map(plan => 
         <tr>
         {/* <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.id.toString()}</td> */}
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.startTime.toString()}</td>
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.endTime.toString()}</td>
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.description.toString()}</td>
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
+        <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.startTime.toString()}</td>
+        <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.endTime.toString()}</td>
+        <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.description.toString()}</td>
+        <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}><input 
             type="checkbox" 
             checked={plan.checked}
             //value={plan.id}
             onChange={e => this.handleChange(e, plan.id, plan.checked)}
             /></td>
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}><input 
+        <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}><input 
             type="button" 
             value="Delete"
             onClick={e => this.handleDelete(e, plan.id)}
@@ -108,45 +104,35 @@ export default class Plan extends React.Component{
     render() {
 
         return (
-            <React.Fragment>
-                <div className = "loginPage">
+          <div>
+          <h5>Input start time, end time and description to add a new plan.</h5>
+          <form name="addPlan" className="register" onSubmit={this.handleSubmit} style={{ "text-align": "center" }}>
+            <input type="time" name="startTime" id="startTime" placeholder="Start" />
+            <input type="time" name="endTime" placeholder="End" />
+            <input id="description" name="description" style={{ "width": "260px", "height": "40px" }} placeholder="Enter description here..." />
+            <button style={{ "width": "70px", "height": "42px" }}>Add</button><br></br>
 
+            <div style={{ "overflow": "scroll" }}>
+              <table className="bordered-table" style={{ "padding": "12px", "text-align": "center" }}>
+                <thead>
+                  <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Description</th>
+                    <th>Complete</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody style={{ "text-align": "center" }}>
+                  <PlanRows plans={this.props.plans}
+                    deletePlans={this.deletePlans}
+                    completePlans={this.completePlans} uncheckPlans={this.uncheckPlans} />
+                </tbody>
+              </table>
+            </div>
 
-                    <div className = 'content'> 
-                    <div className="register-container">
-        <form name="addPlan" className="register" onSubmit={this.handleSubmit}>
-          <p>Input start time, end time and description to add a new plan.</p>
-          <input type="time" name="startTime" id="startTime" placeholder="Start Time" /><br></br>
-          <input type="time" name="endTime" placeholder="End Time" /><br></br>
-          <input id="description" name="description" style={{"width": "300px", "height": "60px"}} placeholder="Enter description here..."/><br></br>
-          <button>Add New Plan</button><br></br>
-
-            <table className="bordered-table">
-            <thead>
-              <tr>
-                {/* <th>ID</th> */}
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Description</th>
-                <th>Completion Status</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <PlanRows plans={this.props.plans} 
-                        deletePlans={this.deletePlans}
-                        completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}/>
-            </tbody>
-            </table>
-        </form>
-      </div>
-
-                    </div>
-                    <div class = "footerWrapper"> 
-                        {/* <Footer /> */}
-                    </div>
-                </div>
-            </React.Fragment>
+          </form>
+          </div>
         )
 
     }

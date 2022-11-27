@@ -198,11 +198,11 @@ class MainPage extends React.Component {
 
 
     render() {
-
+      const conStyle ={ "background-image": "url('../Images/main_pic1.jpg')" , "margin-bottom":"5%"};
 
         return (
             <React.Fragment>
-                <div className = "loginPage">
+                <div className = "loginPage" style={conStyle}>
                     <div className = "navBarWrapper">
                         <NavBar switchPage={this.switchPage}/>
                     </div>
