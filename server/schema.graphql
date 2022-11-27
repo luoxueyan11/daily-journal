@@ -1,0 +1,19 @@
+# This file is un-used for current implementation. It can be integrated with frontend if necessary.
+
+
+type User {
+	_id: ID!
+    customer_name: String!
+    customer_email: String!
+    customer_pass1: String!
+    customer_pass2: String!
+    nullError: Boolean
+    userError: Boolean
+    emailError: Boolean
+    passwordError: Boolean
+}
+
+
+type Query {
+	listUsers:[User]! 
+}

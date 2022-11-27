@@ -9,51 +9,6 @@ import Journal from './Journal'
 import Plan from './Plan'
 import Timeline from './Timeline'
 
-// const initialPlan = [
-//     {
-//       id : 1,
-//       startTime : "10:00",
-//       endTime : "11:00",
-//       description: "This is a task",
-//       checked: false
-//     },
-//     {
-//       id : 2,
-//       startTime : "14:00",
-//       endTime : "16:00",
-//       description: "This is a task",
-//       checked: false
-//     },
-//   ]
-
-// const initialJournal = [
-//     {
-//         id : 1,
-//         startTime : "10:00",
-//         endTime : "11:00",
-//         description: "This is a task description",
-//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-//     },
-
-//     {
-//         id : 2,
-//         startTime : "16:00",
-//         endTime : "18:00",
-//         description: "This is a task description",
-//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-//     },
-
-//     {
-//         id : 3,
-//         startTime : "20:00",
-//         endTime : "22:00",
-//         description: "This is a task description",
-//         content: "This is journal, this is journal, this is journal, this is journal, this is journal, this is journal, this is journal."
-//     }
-
-// ]
-
-
 
 class MainPage extends React.Component {
     constructor(){
@@ -79,6 +34,7 @@ class MainPage extends React.Component {
       return result;
     }
 
+    /*get corresponding user workspace for the current user from local storage*/
     getUserSpace(useremail){
       const data = this.getInfo("DATA");
       const result = data.find(u => u.user == useremail);

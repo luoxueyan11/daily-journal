@@ -3,9 +3,44 @@ import Login from './Loginpage/LoginPage'
 import Signup from './Loginpage/SignupPage'
 import HomePage from './Homepage/HomePage'
 import MainPage from './MainPage/MainPage'
-////import MainPage
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-//import { GiRhinocerosHorn } from 'react-icons/gi';
+
+/*
+this part is for graphql query.
+We didn't include graphql implementation in this application.
+But it can be used for future need.
+*/
+const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
+function jsonDateReviver(key, value) {
+  if (dateRegex.test(value)) return new Date(value);
+  return value;
+}
+async function graphQLFetch(query, variables = {}) {
+  try {
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({ query, variables })
+    });
+    const body = await response.text();
+    const result = JSON.parse(body, jsonDateReviver);
+
+    if (result.errors) {
+      const error = result.errors[0];
+      if (error.extensions.code == 'BAD_USER_INPUT') {
+        const details = error.extensions.exception.errors.join('\n ');
+        alert(`${error.message}:\n ${details}`);
+      } else {
+        alert(`${error.extensions.code}: ${error.message}`);
+      }
+    }
+    return result.data;
+  } catch (e) {
+    alert(`Error in sending data to server: ${e.message}`);
+  }
+}
+/* end of graphql query function */
+
 
 class App extends React.Component {
   constructor(props) {
@@ -22,6 +57,7 @@ class App extends React.Component {
     this.updateData = this.updateData.bind(this);
   }
 
+  //get information from local storage
   getInfo(entry) {
     var result = new Array();
     const info = localStorage.getItem(entry);
@@ -35,6 +71,7 @@ class App extends React.Component {
     this.setState({data:data});
   }
 
+  /* initialize new user's workspace in local storage*/
   createUserSpace(useremail,username) {
     const data = this.getInfo("DATA");
     let newUserSpace = {
@@ -51,7 +88,6 @@ class App extends React.Component {
 
 
   componentDidMount() {
-
     this.setState({ users: this.getInfo("USERS") });
     this.setState({ data: this.getInfo("DATA") });
   }

@@ -28,7 +28,7 @@ class NavBar extends React.Component{
                                 <Link  to="/mainpage/#plan" onClick={()=>{this.props.switchPage(2)}}>PLAN</Link>
                                 <Link  to="/mainpage/#journal" onClick={()=>{this.props.switchPage(3)}}>JOURNAL</Link>
                                 <Link  to="/">HOMEPAGE</Link>
-                                {/* {!this.props.userLogIn? <Link  to="/login" >LOG IN </Link>: <Link onClick = {this.props.userLogOut} to="/" >LOG OUT </Link>} */}
+                                
 
                                 </Nav>
                             </Navbar.Collapse>

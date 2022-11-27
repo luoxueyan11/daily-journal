@@ -1,21 +1,6 @@
 import React from 'react'
 import './Plan.css'
-const initialPlan = [
-    {
-      id : 1,
-      startTime : "10:00 am",
-      endTime : "11:00 am",
-      description: "This is a task",
-      checked: false
-    },
-    {
-      id : 2,
-      startTime : "14:00 pm",
-      endTime : "16:00 pm",
-      description: "This is a task",
-      checked: false
-    },
-  ]
+
 
 class PlanRows extends React.Component {
 constructor() {
@@ -39,14 +24,14 @@ render() {
     return (
     plans.map(plan => 
         <tr>
-        {/* <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.id.toString()}</td> */}
+        
         <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.startTime.toString()}</td>
         <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.endTime.toString()}</td>
         <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}>{plan.description.toString()}</td>
         <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}><input 
             type="checkbox" 
             checked={plan.checked}
-            //value={plan.id}
+
             onChange={e => this.handleChange(e, plan.id, plan.checked)}
             /></td>
         <td style={{"padding":"12px", "text-align":"center", "border":"2px solid #ddd"}}><input 
@@ -116,7 +101,6 @@ export default class Plan extends React.Component{
               <table className="bordered-table" style={{ "padding": "12px", "text-align": "center" }}>
                 <thead>
                   <tr>
-                    {/* <th>ID</th> */}
                     <th>Start</th>
                     <th>End</th>
                     <th>Description</th>
