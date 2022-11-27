@@ -15,7 +15,7 @@ class Footer extends React.Component {
             <div className = 'footer'>
                 <div className = 'footer-limiter'>
                     <div className = 'footer-left'>
-                        <p className = 'footer-links'> JOURNAL</p>
+                        <p className = 'footer-links'> DAILY JOURNAL</p>
                         <p> RECORD LIFE & MAKE LIKE-MINDED FRIENDS</p>
                         <p>© 2022. IT5007-XLS. All rights reserved.</p>
                     </div>

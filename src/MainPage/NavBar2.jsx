@@ -20,7 +20,7 @@ class NavBar extends React.Component{
 
         let navBar = <Navbar expand="lg">
                         <Container>
-                            <Navbar.Brand>DailyJournal</Navbar.Brand>
+                            <Navbar.Brand >DailyJournal</Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" style = {{backgroundColor: "white"}} />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="justify-content-end link" style = {{width: "100%"}}>
