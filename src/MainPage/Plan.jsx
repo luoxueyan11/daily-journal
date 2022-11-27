@@ -67,6 +67,7 @@ render() {
 export default class Plan extends React.Component{
     constructor() {
         super(); 
+        this.state = {count: 0};
         this.completePlans = this.completePlans.bind(this);
         this.deletePlans = this.deletePlans.bind(this);
         this.uncheckPlans = this.uncheckPlans.bind(this);
@@ -91,10 +92,13 @@ export default class Plan extends React.Component{
     const newStartTime = form.startTime.value;
     const newEndTime = form.endTime.value;
     const newDescription = form.description.value;
-    let newPlan = {id:this.props.plans.length + 1,
-                    startTime:newStartTime, endTime:newEndTime, 
-                    description:newDescription, checked:false};
+    let newPlan = {id: this.state.count + 1,
+                  startTime: newStartTime, 
+                  endTime: newEndTime, 
+                  description: newDescription, 
+                  checked: false};
     this.props.addPlans(newPlan);
+    this.setState({count: this.state.count+1});
     form.startTime.value = "";
     form.endTime.value = "";
     form.description.value = "";

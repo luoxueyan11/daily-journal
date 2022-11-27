@@ -59,11 +59,13 @@ class MainPage extends React.Component {
     constructor(){
     super();
     this.switchPage = this.switchPage.bind(this);
-    this.state = {plans:[], completed:[], selector: 1, journals:[]}; 
+    this.state = {plans:[], completed:[], selector: 1, journals:[], content: [], tracker: []}; 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.addPlans = this.addPlans.bind(this);
     this.deletePlans = this.deletePlans.bind(this);
+    this.setJournal = this.setJournal.bind(this);
+    this.setTracker = this.setTracker.bind(this);
     } 
 
     getInfo(entry) {
@@ -122,9 +124,9 @@ class MainPage extends React.Component {
         const updatePlans = plans.filter(function(plan){
           return plan.id != id;
         })
-        for (var i=0; i<updatePlans.length; i++){
-          updatePlans[i].id = i+1;
-        }
+        // for (var i=0; i<updatePlans.length; i++){
+        //   updatePlans[i].id = i+1;
+        // }
     
         this.setState({plans:updatePlans});
         this.updateLocalStorage("plans",updatePlans);
@@ -179,6 +181,21 @@ class MainPage extends React.Component {
         }
       }
 
+      setJournal(contents) {
+        const temp = this.state.content;
+        temp.push(contents)
+        this.setState({content:temp});
+        console.log('content', this.state.content)
+      }
+
+      setTracker(id) {
+        const temp = this.state.tracker;
+        temp.push(id)
+        this.setState({updated:temp});
+        console.log('content', this.state.tracker)
+      }
+
+
     render() {
 
 
@@ -196,7 +213,8 @@ class MainPage extends React.Component {
                                                         addPlans={this.addPlans}
                                                         deletePlans={this.deletePlans}
                                                         />)}
-                    {this.state.selector == 3 && (<Journal completed={this.state.completed}/>)}
+                    {this.state.selector == 3 && (<Journal completed={this.state.completed} tracker={this.state.tracker} content={this.state.content}
+                                                           setJournal={this.setJournal} setTracker={this.setTracker}/>)}
 
                     </div>
                     <div class = "footerWrapper"> 

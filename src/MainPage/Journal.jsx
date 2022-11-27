@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from './NavBar2'
 import Footer from '../Homepage/Footer'
-//import TextEditor from './TextEditor'
+import TextEditor from './TextEditor'
 class JournalRows extends React.Component {
     constructor() {
       super(); 
@@ -85,9 +85,11 @@ export default class Journal extends React.Component{
                   Editor
                 </div>
                 <div><button onClick={(e) => {this.switchPage(1);}}>back</button></div>
-                {/* <div><TextEditor/></div> */}
+                <div>
+                  <TextEditor completed={this.props.completed} journalId={this.state.editingId} tracker={this.props.tracker} content={this.props.content}
+                              setJournal={this.props.setJournal} setTracker={this.props.setTracker}/>
+                </div>
               </div>
-    
             );
         }
       }
