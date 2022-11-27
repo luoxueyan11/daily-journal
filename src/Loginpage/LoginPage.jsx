@@ -5,8 +5,7 @@ import Footer from '../Homepage/Footer'
 import NavBar from '../Homepage/NavBar'
 import { HashLink as Link } from "react-router-hash-link"
 import { withRouter } from "react-router-dom"
-import axios from 'axios'
-
+import GoogleAuth from "./GoogleAuth"
 import './LoginPage.css'
 
 class Login extends React.Component {
@@ -19,6 +18,38 @@ class Login extends React.Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.googleLogin = this.googleLogin.bind(this);
+    }
+
+    googleLogin(signal, user,email) {
+        if (signal) {
+            console.log("welcome, ",user);
+            const temp = this.props.users;
+            var isFound = false;
+            for (var i=0;i<temp.length;i++){
+                if (temp[i].customer_email == email){
+                    isFound = true;
+                    break;
+                };
+            }
+
+            if (!isFound) {
+                const newUser = {
+                    customer_name: user,
+                    customer_email: email,
+                    customer_pass1: "",
+                    customer_pass2: "",
+                    nullError: false,   // check null inputs
+                    userError: false,   // check exist username
+                    emailError: false,  // check exist email
+                    passwordError: false // check different password
+                }
+                temp.push(newUser);
+                this.props.usersUpdate(temp, email, user);
+            }
+            this.props.userLogIn(email);
+            this.props.history.push("/mainpage");   //login succe
+        }
     }
 
     checkInput() {
@@ -50,6 +81,7 @@ class Login extends React.Component {
 
     render() {
         let form = <Form onSubmit={this.handleSubmit}>
+
             <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label> <strong>Email address</strong></Form.Label>
                 <Form.Control className='input_' type="email" placeholder="Enter email" name="customer_email" onChange={this.handleOnChange} />
@@ -71,6 +103,7 @@ class Login extends React.Component {
                     Login
                 </Button>
             </div>
+            <br></br><div><GoogleAuth googleLogin={this.googleLogin}/></div>
 
             <div className="transLink1">
                 <Link to="/signUp">Don't have an account? <span className="transLink2">Click to sign up.</span></Link>

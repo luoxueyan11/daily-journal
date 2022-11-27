@@ -19,6 +19,7 @@ class App extends React.Component {
     this.updateUsers = this.updateUsers.bind(this);
     this.logInUser = this.logInUser.bind(this);
     this.logOutUser = this.logOutUser.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   getInfo(entry) {
@@ -30,15 +31,21 @@ class App extends React.Component {
     return result;
   }
 
-  createUserSpace(user) {
-    const data = this.state.data;
+  updateData(data) {
+    this.setState({data:data});
+  }
+
+  createUserSpace(useremail,username) {
+    const data = this.getInfo("DATA");
     let newUserSpace = {
-      user: user,
+      user: useremail,
+      username: username,
       plans:[],
       completed:[],
       allJournals:[]
     };
     data.push(newUserSpace);
+    this.setState({data:data});
     return data;
   }
 
@@ -49,10 +56,11 @@ class App extends React.Component {
     this.setState({ data: this.getInfo("DATA") });
   }
 
-  updateUsers(users, user) {
+
+  updateUsers(users, useremail,username) {
     this.setState({ users: users });
     localStorage.setItem('USERS', JSON.stringify(users) );
-    localStorage.setItem('DATA', JSON.stringify(this.createUserSpace(user)) );
+    localStorage.setItem('DATA', JSON.stringify(this.createUserSpace(useremail,username)) );
   }
 
   logInUser(userName) {
@@ -68,9 +76,9 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={() => (<HomePage users={this.state.users} userLogIn={this.state.user} userLogOut={this.logOutUser} />)} />
-            <Route path="/login" component={() => (<Login users={this.state.users} userLogIn={this.logInUser} />)} />
+            <Route path="/login" component={() => (<Login users={this.state.users}  userLogIn={this.logInUser}  usersUpdate={this.updateUsers}/>)} />
             <Route path="/signUp" component={() => (<Signup users={this.state.users} usersUpdate={this.updateUsers} />)} />
-            <Route path = "/mainpage" component={() => (<MainPage user={this.state.user}/>)} />          
+            <Route path = "/mainpage" component={() => (<MainPage user={this.state.user} updateData={this.updateData}/>)} />          
           </Switch>
         </BrowserRouter>
     );

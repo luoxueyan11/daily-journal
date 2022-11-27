@@ -59,7 +59,7 @@ class MainPage extends React.Component {
     constructor(){
     super();
     this.switchPage = this.switchPage.bind(this);
-    this.state = {plans:[], completed:[], selector: 1, journals:[], content: [], tracker: []}; 
+    this.state = {plans:[], completed:[], selector: 1, journals:[], content: [], tracker: [],username:""}; 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.addPlans = this.addPlans.bind(this);
@@ -106,6 +106,7 @@ class MainPage extends React.Component {
       this.setState({plans:userSpace.plans,
                     completed:userSpace.completed,
                     journals:userSpace.allJournals,
+                    username:userSpace.username
                   })
     }
 
@@ -207,7 +208,7 @@ class MainPage extends React.Component {
                     </div>
 
                     <div className = 'content'> 
-                    {this.state.selector == 1 && (<Timeline journals={this.state.journals}/>)}
+                    {this.state.selector == 1 && (<Timeline journals={this.state.journals}  username={this.state.username}/>)}
                     {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} 
                                                         completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}
                                                         addPlans={this.addPlans}

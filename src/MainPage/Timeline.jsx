@@ -48,6 +48,7 @@ export default class Timeline extends React.Component {
         return (
 
             <React.Fragment>
+            <div>Hi {this.props.username}</div>
             <div>{blogPost}</div>
             </React.Fragment>)
     }

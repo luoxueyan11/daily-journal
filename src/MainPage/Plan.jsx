@@ -43,7 +43,7 @@ render() {
     return (
     plans.map(plan => 
         <tr>
-        <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.id.toString()}</td>
+        {/* <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.id.toString()}</td> */}
         <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.startTime.toString()}</td>
         <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.endTime.toString()}</td>
         <td style={{"padding":"8px", "text-align":"center", "border-bottom":"1px solid #ddd"}}>{plan.description.toString()}</td>
@@ -124,7 +124,7 @@ export default class Plan extends React.Component{
             <table className="bordered-table">
             <thead>
               <tr>
-                <th>ID</th>
+                {/* <th>ID</th> */}
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Description</th>

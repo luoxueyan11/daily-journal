@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { HashLink as Link } from "react-router-hash-link"
 import { withRouter } from "react-router-dom"
-import axios from 'axios'
+
 
 import Footer from '../Homepage/Footer'
 import NavBar from '../Homepage/NavBar'
@@ -61,7 +61,7 @@ class Signup extends React.Component {
         if (this.checkInput()) {
             const temp = this.props.users;
             temp.push(this.state);
-            this.props.usersUpdate(temp, this.state.customer_email);
+            this.props.usersUpdate(temp, this.state.customer_email, this.state.customer_name);
 
             var res = window.confirm("Registration successful! Click ok to log in and explore more features. Else, stay at the current page.");
             if (res == true) { this.props.history.push("/login"); }
