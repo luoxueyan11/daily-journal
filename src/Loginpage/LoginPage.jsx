@@ -56,7 +56,7 @@ class Login extends React.Component {
         console.log(this.props.users);
         const users = this.props.users;
         for (var i = 0; i < users.length; i++) {
-            if (this.state.customer_email == users[i].customer_email && this.state.customer_pass == users[i].customer_pass1) {
+            if (this.state.customer_email == users[i].email && this.state.customer_pass == users[i].password) {
                 return true;
             }
         }

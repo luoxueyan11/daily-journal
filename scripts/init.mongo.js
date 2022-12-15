@@ -8,18 +8,54 @@
  */
 
 db.users.remove({});
-
-
 db.users.insertMany([
     {
-        customer_name: "rose",
-        customer_email: "rose@gmail.com",
-        customer_pass1: "r",
-        customer_pass2: "r",
-        nullError: false,   // check null inputs
-        userError: false,   // check exist username
-        emailError: false,  // check exist email
-        passwordError: false // check different password
+        name: "m",
+        email: "m@gmail.com",
+        password: "m",
     },
+
+    {
+        name: "n",
+        email: "n@gmail.com",
+        password: "n",
+    },
+
+    {
+        name: "o",
+        email: "o@gmail.com",
+        password: "o",
+    },
+
+]);
+
+
+db.data.remove({});
+db.data.insertMany([
+    {
+        user: "m@gmail.com",
+        username: "m",
+        plans:[],
+        completed:[],
+        allJournals:[]
+      },
+
+      {
+        user: "n@gmail.com",
+        username: "n",
+        plans:[],
+        completed:[],
+        allJournals:[]
+      },
+
+      {
+        user: "o@gmail.com",
+        username: "o",
+        plans:[],
+        completed:[],
+        allJournals:[]
+      }
+
+
 
 ]);

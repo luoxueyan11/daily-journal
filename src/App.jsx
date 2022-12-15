@@ -57,6 +57,51 @@ class App extends React.Component {
     this.updateData = this.updateData.bind(this);
   }
 
+  async loadData() {
+    const query = `query {
+      listUsers {
+        name email password
+      }
+    }`;
+    const data = await graphQLFetch(query);
+    if (data) {
+      this.setState({ users: data.listUsers });
+    };
+    console.log(this.state.users);
+
+    const dataquery = `query {
+      listData {
+        user
+        username
+        plans{
+          id
+          startTime
+          endTime
+          description
+          checked}
+        completed{
+          id
+          startTime
+          endTime
+          description
+          checked}
+        allJournals
+      }
+    }`;
+    const data2 = await graphQLFetch(dataquery);
+    if (data2) {
+      this.setState({ data: data2.listData });
+    };
+    console.log(this.state.data);  
+  }
+
+
+  componentDidMount() {
+    // this.setState({ users: this.getInfo("USERS") });
+    this.loadData();
+    // this.setState({ data: this.getInfo("DATA") });
+  }
+
   //get information from local storage
   getInfo(entry) {
     var result = new Array();
@@ -86,30 +131,12 @@ class App extends React.Component {
     return data;
   }
 
-  async loadData() {
-    const query = `query {
-      listUsers {
-        customer_name
-      }
-    }`;
-    const data = await graphQLFetch(query);
-    if (data) {
-      this.setState({ users: data.listUsers });
-    };
-    console.log(this.state.users);
-  }
 
-
-  componentDidMount() {
-    // this.setState({ users: this.getInfo("USERS") });
-    this.loadData();
-    this.setState({ data: this.getInfo("DATA") });
-  }
 
 
   updateUsers(users, useremail,username) {
     this.setState({ users: users });
-    localStorage.setItem('USERS', JSON.stringify(users) );
+    // localStorage.setItem('USERS', JSON.stringify(users) );
     localStorage.setItem('DATA', JSON.stringify(this.createUserSpace(useremail,username)) );
   }
 

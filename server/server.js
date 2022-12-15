@@ -1,7 +1,3 @@
-/*
-This file is un-used for current implementation. It can be integrated with frontend if necessary.
-*/
-
 const fs = require('fs');
 const express = require('express');
 const { ApolloServer, UserInputError } = require('apollo-server-express');
@@ -19,10 +15,17 @@ async function listUsers()
   return users;
 }
 
+async function listData()
+{
+  const data = db.collection('data').find().toArray();
+  return data;
+}
+
 
 const resolvers = {
   Query: {
-    listUsers
+    listUsers,
+    listData
   },
 
 };

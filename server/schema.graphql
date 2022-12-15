@@ -3,17 +3,49 @@
 
 type User {
 	_id: ID!
-    customer_name: String!
-    customer_email: String!
-    customer_pass1: String!
-    customer_pass2: String!
-    nullError: Boolean
-    userError: Boolean
-    emailError: Boolean
-    passwordError: Boolean
+    name: String!
+    email: String!
+    password: String!
+}
+
+type Data {
+    _id: ID!
+    user: String!
+    username: String!
+    plans:[Plan]
+    completed:[Completed]
+    allJournals:String
+}
+
+type Plan {
+    _id: ID!
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    checked: Boolean
+}
+
+type Completed {
+    _id: ID!
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    checked: Boolean
+}
+
+type Completed {
+    _id: ID!
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    checked: Boolean
 }
 
 
 type Query {
 	listUsers:[User]! 
+    listData:[Data]!
 }
