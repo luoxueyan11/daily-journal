@@ -10,5 +10,5 @@ beautify front-end pages, local storage is used to maintain user data.
 ## How to run application
 * cd to home/it5007/courseproject-xls and run
 ```
-docker load -i docker_base_image.tar
+npm start
 ```

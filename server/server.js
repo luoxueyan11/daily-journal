@@ -31,7 +31,7 @@ const resolvers = {
 
 const app = express();
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync('./server/schema.graphql', 'utf-8'),
+  typeDefs: fs.readFileSync('./schema.graphql', 'utf-8'),
   resolvers,
   formatError: error => {
     console.log(error);
@@ -57,6 +57,7 @@ async function connectToDb() {
 
 (async function () {
   try {
+    await applyGraphql();
     await connectToDb();
     app.listen(4000, function () {
       console.log('API server started on port 4000');

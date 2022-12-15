@@ -17,7 +17,7 @@ function jsonDateReviver(key, value) {
 }
 async function graphQLFetch(query, variables = {}) {
   try {
-    const response = await fetch('/graphql', {
+    const response = await fetch('http://localhost:4000/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify({ query, variables })
@@ -86,9 +86,23 @@ class App extends React.Component {
     return data;
   }
 
+  async loadData() {
+    const query = `query {
+      listUsers {
+        customer_name
+      }
+    }`;
+    const data = await graphQLFetch(query);
+    if (data) {
+      this.setState({ users: data.listUsers });
+    };
+    console.log(this.state.users);
+  }
+
 
   componentDidMount() {
-    this.setState({ users: this.getInfo("USERS") });
+    // this.setState({ users: this.getInfo("USERS") });
+    this.loadData();
     this.setState({ data: this.getInfo("DATA") });
   }
 
