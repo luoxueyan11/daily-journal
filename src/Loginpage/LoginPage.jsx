@@ -21,13 +21,13 @@ class Login extends React.Component {
         this.googleLogin = this.googleLogin.bind(this);
     }
 
-    googleLogin(signal, user,email) {
+    async googleLogin(signal, user,email) {
         if (signal) {
             console.log("welcome, ",user);
             const temp = this.props.users;
             var isFound = false;
             for (var i=0;i<temp.length;i++){
-                if (temp[i].customer_email == email){
+                if (temp[i].email == email){
                     isFound = true;
                     break;
                 };
@@ -35,20 +35,20 @@ class Login extends React.Component {
 
             if (!isFound) {
                 const newUser = {
-                    customer_name: user,
-                    customer_email: email,
-                    customer_pass1: "",
-                    customer_pass2: "",
-                    nullError: false,   // check null inputs
-                    userError: false,   // check exist username
-                    emailError: false,  // check exist email
-                    passwordError: false // check different password
+                    name: user,
+                    email: email,
+                    password: "",
                 }
-                temp.push(newUser);
-                this.props.usersUpdate(temp, email, user);
+                // temp.push(newUser);
+                // this.props.usersUpdate(temp, email, user);
+                await this.props.usersUpdate(newUser);
+                this.props.userLogIn(email);
+                this.props.history.push("/mainpage");   //login successful
+            } else {
+                this.props.userLogIn(email);
+                this.props.history.push("/mainpage");   //login successful
             }
-            this.props.userLogIn(email);
-            this.props.history.push("/mainpage");   //login succe
+
         }
     }
 

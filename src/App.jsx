@@ -7,8 +7,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 /*
 this part is for graphql query.
-We didn't include graphql implementation in this application.
-But it can be used for future need.
 */
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
 function jsonDateReviver(key, value) {
@@ -74,18 +72,11 @@ class App extends React.Component {
         user
         username
         plans{
-          id
-          startTime
-          endTime
-          description
-          checked}
+          id startTime endTime description checked}
         completed{
-          id
-          startTime
-          endTime
-          description
-          checked}
-        allJournals
+          id startTime endTime description checked}
+        allJournals{
+          id startTime endTime description content}
       }
     }`;
     const data2 = await graphQLFetch(dataquery);
@@ -97,47 +88,48 @@ class App extends React.Component {
 
 
   componentDidMount() {
-    // this.setState({ users: this.getInfo("USERS") });
     this.loadData();
-    // this.setState({ data: this.getInfo("DATA") });
   }
 
-  //get information from local storage
-  getInfo(entry) {
-    var result = new Array();
-    const info = localStorage.getItem(entry);
-    if (info != null){
-      result = JSON.parse(info);
-    }
-    return result;
-  }
 
   updateData(data) {
     this.setState({data:data});
   }
 
-  /* initialize new user's workspace in local storage*/
-  createUserSpace(useremail,username) {
-    const data = this.getInfo("DATA");
-    let newUserSpace = {
-      user: useremail,
-      username: username,
+  async updateUsers(newUser) {
+
+    const query = `mutation addUser($user: InputUser!) {
+      addUser(user: $user) {
+        name
+      }
+    }`;
+    let user = {
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+    };
+    const new_user = await graphQLFetch(query, {user});
+    if (new_user){
+      this.loadData();
+    }
+
+    const data_query = `mutation addData($data: InputData!) {
+      addData(data: $data) {
+        user
+      }
+    }`;
+    let data = {
+      user: newUser.email,
+      username: newUser.name,
       plans:[],
       completed:[],
       allJournals:[]
-    };
-    data.push(newUserSpace);
-    this.setState({data:data});
-    return data;
-  }
+    }
+    const new_data = await graphQLFetch(data_query, {data});
+    if (new_data){
+      this.loadData();
+    }
 
-
-
-
-  updateUsers(users, useremail,username) {
-    this.setState({ users: users });
-    // localStorage.setItem('USERS', JSON.stringify(users) );
-    localStorage.setItem('DATA', JSON.stringify(this.createUserSpace(useremail,username)) );
   }
 
   logInUser(userName) {
@@ -155,7 +147,7 @@ class App extends React.Component {
             <Route exact path="/" component={() => (<HomePage users={this.state.users} userLogIn={this.state.user} userLogOut={this.logOutUser} />)} />
             <Route path="/login" component={() => (<Login users={this.state.users}  userLogIn={this.logInUser}  usersUpdate={this.updateUsers}/>)} />
             <Route path="/signUp" component={() => (<Signup users={this.state.users} usersUpdate={this.updateUsers} />)} />
-            <Route path = "/mainpage" component={() => (<MainPage user={this.state.user} updateData={this.updateData}/>)} />          
+            <Route path = "/mainpage" component={() => (<MainPage user={this.state.user} updateData={this.updateData} data={this.state.data}/>)} />          
           </Switch>
         </BrowserRouter>
     );

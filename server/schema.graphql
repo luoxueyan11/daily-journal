@@ -8,13 +8,27 @@ type User {
     password: String!
 }
 
+input InputUser {
+    name: String!
+    email: String!
+    password: String
+}
+
 type Data {
     _id: ID!
     user: String!
     username: String!
     plans:[Plan]
     completed:[Completed]
-    allJournals:String
+    allJournals:[Journal]
+}
+
+input InputData {
+    user: String!
+    username: String!
+    plans:[InputPlan]
+    completed:[InputCompleted]
+    allJournals:[InputJournal]
 }
 
 type Plan {
@@ -26,8 +40,7 @@ type Plan {
     checked: Boolean
 }
 
-type Completed {
-    _id: ID!
+input InputPlan {
     id: Int!
     startTime: String!
     endTime: String!
@@ -42,10 +55,39 @@ type Completed {
     endTime: String!
     description: String!
     checked: Boolean
+}
+
+input InputCompleted {
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    checked: Boolean
+}
+
+type Journal {
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    content: String!
+}
+
+input InputJournal {
+    id: Int!
+    startTime: String!
+    endTime: String!
+    description: String!
+    content: String!
 }
 
 
 type Query {
 	listUsers:[User]! 
     listData:[Data]!
+}
+
+type Mutation {
+	addUser(user: InputUser!): User!
+    addData(data: InputData!): Data!
 }

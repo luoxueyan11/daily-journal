@@ -21,13 +21,30 @@ async function listData()
   return data;
 }
 
+async function addUser(_, {user})
+{
+  const result = await db.collection('users').insertOne(user);
+  const newUser = await db.collection('users').findOne({ _id: result.insertedId })
+  return newUser;
+}
+
+async function addData(_, {data})
+{
+  const result = await db.collection('data').insertOne(data);
+  const newData = await db.collection('data').findOne({ _id: result.insertedId })
+  return newData;
+}
+
 
 const resolvers = {
   Query: {
     listUsers,
     listData
   },
-
+  Mutation: {
+    addUser,
+    addData
+  }
 };
 
 

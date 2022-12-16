@@ -25,6 +25,22 @@ class MainPage extends React.Component {
     this.setTracker = this.setTracker.bind(this);
     } 
 
+    componentDidMount() {
+
+      const userSpace = this.getUserSpace(this.props.user);
+      if(userSpace){
+        console.log(userSpace);
+        this.setState({plans:userSpace.plans,
+                      completed:userSpace.completed,
+                      journals:userSpace.allJournals,
+                      username:userSpace.username
+                    })
+      } else {
+        console.log("failed to get userspace");
+      }
+
+    }
+
     getInfo(entry) {
       var result = new Array();
       const info = localStorage.getItem(entry);
@@ -34,9 +50,9 @@ class MainPage extends React.Component {
       return result;
     }
 
-    /*get corresponding user workspace for the current user from local storage*/
+    /*get corresponding user workspace for the current user from mongodb*/
     getUserSpace(useremail){
-      const data = this.getInfo("DATA");
+      const data = this.props.data;
       const result = data.find(u => u.user == useremail);
       return result
     }
@@ -58,15 +74,7 @@ class MainPage extends React.Component {
         this.setState({selector:selector})
     }
 
-    componentDidMount() {
-      const userSpace = this.getUserSpace(this.props.user);
-      console.log(userSpace);
-      this.setState({plans:userSpace.plans,
-                    completed:userSpace.completed,
-                    journals:userSpace.allJournals,
-                    username:userSpace.username
-                  })
-    }
+
 
     addJournal(journal) {
       const temp = this.state.journals;
