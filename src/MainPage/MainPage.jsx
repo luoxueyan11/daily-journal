@@ -9,12 +9,45 @@ import Journal from './Journal'
 import Plan from './Plan'
 import Timeline from './Timeline'
 
+/*
+this part is for graphql query.
+*/
+const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
+function jsonDateReviver(key, value) {
+  if (dateRegex.test(value)) return new Date(value);
+  return value;
+}
+async function graphQLFetch(query, variables = {}) {
+  try {
+    const response = await fetch('http://localhost:4000/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({ query, variables })
+    });
+    const body = await response.text();
+    const result = JSON.parse(body, jsonDateReviver);
+
+    if (result.errors) {
+      const error = result.errors[0];
+      if (error.extensions.code == 'BAD_USER_INPUT') {
+        const details = error.extensions.exception.errors.join('\n ');
+        alert(`${error.message}:\n ${details}`);
+      } else {
+        alert(`${error.extensions.code}: ${error.message}`);
+      }
+    }
+    return result.data;
+  } catch (e) {
+    alert(`Error in sending data to server: ${e.message}`);
+  }
+}
+/* end of graphql query function */
 
 class MainPage extends React.Component {
     constructor(){
     super();
     this.switchPage = this.switchPage.bind(this);
-    this.state = {plans:[], completed:[], selector: 1, journals:[], content: [], tracker: [],username:""}; 
+    this.state = {data:[],plans:[], completed:[], selector: 1, journals:[], content: [], tracker: [],username:""}; 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.addPlans = this.addPlans.bind(this);
@@ -25,11 +58,12 @@ class MainPage extends React.Component {
     this.setTracker = this.setTracker.bind(this);
     } 
 
-    componentDidMount() {
-
-      const userSpace = this.getUserSpace(this.props.user);
+    async componentDidMount() {
+      await this.loadData();
+      // const userSpace = this.getUserSpace(this.props.user);
+      const userSpace = this.state.data.find(u => u.user == this.props.user);
       if(userSpace){
-        console.log(userSpace);
+        console.log("load Userspace...",userSpace);
         this.setState({plans:userSpace.plans,
                       completed:userSpace.completed,
                       journals:userSpace.allJournals,
@@ -41,6 +75,48 @@ class MainPage extends React.Component {
 
     }
 
+    async loadData() {
+      const dataquery = `query {
+        listData {
+          user
+          username
+          plans{
+            id startTime endTime description checked}
+          completed{
+            id startTime endTime description checked}
+          allJournals{
+            id startTime endTime description content}
+        }
+      }`;
+      const result = await graphQLFetch(dataquery);
+      if (result) {
+        this.setState({ data: result.listData});
+        const data = this.state.data;
+        const userdata = data.find(u => u.user == this.props.user);
+        console.log("this.state.data:",data);
+        this.setState({plans:userdata.plans});
+        this.setState({completed:userdata.completed});
+        this.setState({journals:userdata.allJournals});
+        // console.log(this.state.plans);
+        // console.log(this.state.completed);
+        console.log("this.state.data.plans:",userdata.plans);
+        console.log("this.state.data.allJournals:",userdata.allJournals);
+        console.log("this.state.journals:",this.state.journals);
+
+        //  plans: data.listData.plans,
+        //  completed: data.listData.completed,
+        //  journals: data.listData.allJournals
+      };
+      console.log("load data...",this.state.data);  
+    }
+
+    // /*get corresponding user workspace for the current user from mongodb*/
+    // getUserSpace(useremail){
+    //   const data = this.state.data;
+    //   const result = data.find(u => u.user == useremail);
+    //   return result
+    // }
+
     getInfo(entry) {
       var result = new Array();
       const info = localStorage.getItem(entry);
@@ -50,12 +126,7 @@ class MainPage extends React.Component {
       return result;
     }
 
-    /*get corresponding user workspace for the current user from mongodb*/
-    getUserSpace(useremail){
-      const data = this.props.data;
-      const result = data.find(u => u.user == useremail);
-      return result
-    }
+
 
     updateLocalStorage(entry, arr) {
       const data = this.getInfo("DATA");
@@ -66,6 +137,16 @@ class MainPage extends React.Component {
         }
       }
       localStorage.setItem('DATA', JSON.stringify(data));
+    }
+
+    async updateData(field, data) {
+      const query = `mutation updateData($email:String!, $field:String!, $data:InputPlan!) {
+        updateData(email:$email, field:$field, data:$data)}`;
+      const email = this.state.email;
+      const result = await graphQLFetch(query, {email, field, data});
+      if (result){
+        this.loadData();
+      }
     }
 
 
@@ -96,9 +177,12 @@ class MainPage extends React.Component {
     addPlans(plan){
         const temp = this.state.plans;
         temp.push(plan);
-        this.setState({plans:temp});
-        this.updateLocalStorage("plans",temp);
-        console.log(temp)
+        // this.setState({plans:temp});
+        // this.updateLocalStorage("plans",temp);
+        // console.log(temp)
+
+        this.updateData("plans",temp);
+        console.log("add plans!:",this.state.plans);
       }
     
     deletePlans(id){

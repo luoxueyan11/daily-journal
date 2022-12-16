@@ -35,6 +35,23 @@ async function addData(_, {data})
   return newData;
 }
 
+async function updateData(_, {email, field, data})
+{
+  const result = await db.collection('data').updateOne(
+    {user: email},
+    {
+      $set:
+      {
+        "plan":data
+      }
+    }
+  );
+  if (result.upsertedId) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 const resolvers = {
   Query: {
@@ -43,7 +60,8 @@ const resolvers = {
   },
   Mutation: {
     addUser,
-    addData
+    addData,
+    updateData
   }
 };
 

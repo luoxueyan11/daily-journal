@@ -14,7 +14,7 @@ function Timeline(props){
                 Id: journals[i].id,
                 Title: journals[i].description,
                 Date: journals[i].startTime + " to " + journals[i].endTime,
-                // Date: journals[i].time,
+                Date: journals[i].time,
                 Content: journals[i].content,
             }
             posts.push(p);
@@ -30,6 +30,7 @@ function Timeline(props){
     var yyyy = today.getFullYear();
     today = dd + '/' + mm + '/' + yyyy;
     const posts = processJournal(props.journals);
+    
 
     const content = props.content
     const tracker = props.tracker
