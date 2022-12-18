@@ -77,6 +77,7 @@ class App extends React.Component {
           id startTime endTime description checked}
         allJournals{
           id startTime endTime description content}
+        count
       }
     }`;
     const data2 = await graphQLFetch(dataquery);
@@ -123,7 +124,8 @@ class App extends React.Component {
       username: newUser.name,
       plans:[],
       completed:[],
-      allJournals:[]
+      allJournals:[],
+      count:0
     }
     const new_data = await graphQLFetch(data_query, {data});
     if (new_data){

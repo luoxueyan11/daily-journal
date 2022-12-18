@@ -21,6 +21,7 @@ type Data {
     plans:[Plan]
     completed:[Completed]
     allJournals:[Journal]
+    count:Int
 }
 
 input InputData {
@@ -29,6 +30,7 @@ input InputData {
     plans:[InputPlan]
     completed:[InputCompleted]
     allJournals:[InputJournal]
+    count:Int
 }
 
 type Plan {
@@ -83,6 +85,7 @@ input InputJournal {
 
 
 type Query {
+    getCount:Int!
 	listUsers:[User]! 
     listData:[Data]!
 }
@@ -90,6 +93,7 @@ type Query {
 type Mutation {
 	addUser(user: InputUser!): User!
     addData(data: InputData!): Data!
+    addOnePlan(email:String!, data:[InputPlan]!):Boolean!
     updatePlan(email:String!, data:[InputPlan]!):Boolean!
     updateCompleted(email:String!, data:[InputCompleted]!):Boolean
 }

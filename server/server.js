@@ -34,6 +34,28 @@ async function addData(_, {data})
   return newData;
 }
 
+async function addOnePlan(_, {email, data})
+{
+  const result = await db.collection('data').updateOne(
+    {user: email},
+    {
+      $set:
+      {
+        "plans":data,
+      },
+      $inc:
+      {
+        "count":1,
+      }
+    }
+  );
+  if (result.upsertedId) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 async function updatePlan(_, {email, data})
 {
   const result = await db.collection('data').updateOne(
@@ -41,7 +63,7 @@ async function updatePlan(_, {email, data})
     {
       $set:
       {
-        "plans":data
+        "plans":data,
       }
     }
   );
@@ -78,6 +100,7 @@ const resolvers = {
   Mutation: {
     addUser,
     addData,
+    addOnePlan,
     updatePlan,
     updateCompleted
   }

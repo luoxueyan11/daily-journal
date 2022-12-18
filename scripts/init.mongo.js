@@ -38,7 +38,8 @@ db.data.insertMany([
         username: "m",
         plans:[],
         completed:[],
-        allJournals:[]
+        allJournals:[],
+        count:0
       },
 
       {
@@ -46,7 +47,8 @@ db.data.insertMany([
         username: "n",
         plans:[],
         completed:[],
-        allJournals:[]
+        allJournals:[],
+        count:0
       },
 
       {
@@ -54,7 +56,8 @@ db.data.insertMany([
         username: "o",
         plans:[],
         completed:[],
-        allJournals:[]
+        allJournals:[],
+        count:0
       }
 
 

@@ -61,19 +61,19 @@ class MainPage extends React.Component {
     async componentDidMount() {
       await this.loadData();
       // const userSpace = this.getUserSpace(this.props.user);
-      const userSpace = this.state.data.find(u => u.user == this.props.user);
-      if(userSpace){
-        console.log("load Userspace...",userSpace);
-        this.setState({plans:userSpace.plans,
-                      completed:userSpace.completed,
-                      journals:userSpace.allJournals,
-                      username:userSpace.username,
-                      email:userSpace.user,
-                      count:userSpace.plans.length
-                    })
-      } else {
-        console.log("failed to get userspace");
-      }
+      // const userSpace = this.state.data.find(u => u.user == this.props.user);
+      // if(userSpace){
+      //   console.log("load Userspace...",userSpace);
+      //   this.setState({plans:userSpace.plans,
+      //                 completed:userSpace.completed,
+      //                 journals:userSpace.allJournals,
+      //                 username:userSpace.username,
+      //                 email:userSpace.user,
+      //                 count:userSpace.count
+      //               })
+      // } else {
+      //   console.log("failed to get userspace");
+      // }
 
     }
 
@@ -88,6 +88,7 @@ class MainPage extends React.Component {
             id startTime endTime description checked}
           allJournals{
             id startTime endTime description content}
+          count
         }
       }`;
       const result = await graphQLFetch(dataquery);
@@ -99,6 +100,9 @@ class MainPage extends React.Component {
         this.setState({plans:userdata.plans});
         this.setState({completed:userdata.completed});
         this.setState({journals:userdata.allJournals});
+        this.setState({count:userdata.count});
+        this.setState({username:userdata.username});
+        this.setState({email:userdata.user});
         // console.log(this.state.plans);
         // console.log(this.state.completed);
         console.log("this.state.data.plans:",userdata.plans);
@@ -142,6 +146,18 @@ class MainPage extends React.Component {
     }
 
     // update user plans in database
+    async addOnePlan(data) {
+      const query = `mutation addOnePlan($email:String!, $data:[InputPlan]!) {
+        addOnePlan(email:$email, data:$data)}`;
+      const email = this.state.email;
+      const result = await graphQLFetch(query, {email, data});
+      if (result){
+        console.log("updatePlan: ready to load data.")
+        this.loadData();
+        console.log("updatePlan: complete loading data.")
+      }
+    }
+
     async updatePlan(data) {
       const query = `mutation updatePlan($email:String!, $data:[InputPlan]!) {
         updatePlan(email:$email, data:$data)}`;
@@ -196,23 +212,26 @@ class MainPage extends React.Component {
         // this.updateLocalStorage("plans",temp);
         // console.log(temp)
 
-        await this.updatePlan(temp);
+        await this.addOnePlan(temp);
         console.log("addPlans:",this.state.plans);
       }
     
     async deletePlans(id){
-      this.uncheckPlans(id);
+      console.log("delete:",id,"; plans:",this.state.plans);
+      await this.uncheckPlans(id);
       const plans = this.state.plans;
       const updatePlans = plans.filter(function(plan){
         return plan.id != id;
       })
+      console.log("after deleting:",updatePlans);
+      await this.updatePlan(updatePlans);
       const journalNeedsDel = this.state.journals.filter(obj => obj.id === id)
       if (journalNeedsDel.length > 0) {
         this.deleteJournal(id);
       };
       // this.setState({plans:updatePlans});
       // this.updateLocalStorage("plans",updatePlans);
-      await this.updatePlan(updatePlans);
+      
     }
     
     async completePlans(id){
