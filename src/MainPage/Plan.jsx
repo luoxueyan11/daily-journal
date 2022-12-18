@@ -54,6 +54,10 @@ export default class Plan extends React.Component{
         this.uncheckPlans = this.uncheckPlans.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
       }
+
+    componentDidMount(){
+      this.setState({count:this.props.count});
+    }
     
     completePlans(id){
     this.props.completePlans(id);

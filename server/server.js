@@ -8,7 +8,6 @@ const { MongoClient } = require('mongodb');
 let db;//Variable that points to the real DB.
 
 
-
 async function listUsers()
 {
   const users = db.collection('users').find().toArray();
@@ -35,14 +34,32 @@ async function addData(_, {data})
   return newData;
 }
 
-async function updateData(_, {email, field, data})
+async function updatePlan(_, {email, data})
 {
   const result = await db.collection('data').updateOne(
     {user: email},
     {
       $set:
       {
-        "plan":data
+        "plans":data
+      }
+    }
+  );
+  if (result.upsertedId) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function updateCompleted(_, {email, data})
+{
+  const result = await db.collection('data').updateOne(
+    {user: email},
+    {
+      $set:
+      {
+        "completed":data
       }
     }
   );
@@ -61,7 +78,8 @@ const resolvers = {
   Mutation: {
     addUser,
     addData,
-    updateData
+    updatePlan,
+    updateCompleted
   }
 };
 

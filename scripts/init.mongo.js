@@ -7,6 +7,7 @@
  * Note: This file is un-used for current implementation. It can be integrated with frontend if necessary.
  */
 
+
 db.users.remove({});
 db.users.insertMany([
     {

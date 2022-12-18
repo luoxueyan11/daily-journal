@@ -47,7 +47,7 @@ class MainPage extends React.Component {
     constructor(){
     super();
     this.switchPage = this.switchPage.bind(this);
-    this.state = {data:[],plans:[], completed:[], selector: 1, journals:[], content: [], tracker: [],username:""}; 
+    this.state = {data:[],plans:[], completed:[], selector: 1, journals:[], content: [], tracker: [],username:"", count:0}; 
     this.completePlans = this.completePlans.bind(this);
     this.uncheckPlans = this.uncheckPlans.bind(this);
     this.addPlans = this.addPlans.bind(this);
@@ -67,7 +67,9 @@ class MainPage extends React.Component {
         this.setState({plans:userSpace.plans,
                       completed:userSpace.completed,
                       journals:userSpace.allJournals,
-                      username:userSpace.username
+                      username:userSpace.username,
+                      email:userSpace.user,
+                      count:userSpace.plans.length
                     })
       } else {
         console.log("failed to get userspace");
@@ -139,11 +141,24 @@ class MainPage extends React.Component {
       localStorage.setItem('DATA', JSON.stringify(data));
     }
 
-    async updateData(field, data) {
-      const query = `mutation updateData($email:String!, $field:String!, $data:InputPlan!) {
-        updateData(email:$email, field:$field, data:$data)}`;
+    // update user plans in database
+    async updatePlan(data) {
+      const query = `mutation updatePlan($email:String!, $data:[InputPlan]!) {
+        updatePlan(email:$email, data:$data)}`;
       const email = this.state.email;
-      const result = await graphQLFetch(query, {email, field, data});
+      const result = await graphQLFetch(query, {email, data});
+      if (result){
+        console.log("updatePlan: ready to load data.")
+        this.loadData();
+        console.log("updatePlan: complete loading data.")
+      }
+    }
+
+    async updateCompleted(data) {
+      const query = `mutation updateCompleted($email:String!, $data:[InputCompleted]!) {
+        updateCompleted(email:$email, data:$data)}`;
+      const email = this.state.email;
+      const result = await graphQLFetch(query, {email, data});
       if (result){
         this.loadData();
       }
@@ -174,18 +189,18 @@ class MainPage extends React.Component {
 
 
 
-    addPlans(plan){
+    async addPlans(plan){
         const temp = this.state.plans;
         temp.push(plan);
         // this.setState({plans:temp});
         // this.updateLocalStorage("plans",temp);
         // console.log(temp)
 
-        this.updateData("plans",temp);
-        console.log("add plans!:",this.state.plans);
+        await this.updatePlan(temp);
+        console.log("addPlans:",this.state.plans);
       }
     
-    deletePlans(id){
+    async deletePlans(id){
       this.uncheckPlans(id);
       const plans = this.state.plans;
       const updatePlans = plans.filter(function(plan){
@@ -195,11 +210,12 @@ class MainPage extends React.Component {
       if (journalNeedsDel.length > 0) {
         this.deleteJournal(id);
       };
-      this.setState({plans:updatePlans});
-      this.updateLocalStorage("plans",updatePlans);
+      // this.setState({plans:updatePlans});
+      // this.updateLocalStorage("plans",updatePlans);
+      await this.updatePlan(updatePlans);
     }
     
-    completePlans(id){
+    async completePlans(id){
       const plans = this.state.plans;
       const temp = this.state.completed;
       for (var i=0; i<plans.length; i++){
@@ -212,26 +228,33 @@ class MainPage extends React.Component {
             checked: true
           }
           this.state.plans[i] = newComplete;
-          this.updateLocalStorage("plans", this.state.plans);
+          // this.updateLocalStorage("plans", this.state.plans);
+          await this.updatePlan(this.state.plans);
+          console.log("complete updating plan.")
           temp.push(newComplete);
+          
         }
       }
-      this.setState({completed: temp.sort((a, b) => (a.id > b.id) ? 1 : -1)}, function () {
-        console.log("check a plan");
-      });
-      this.updateLocalStorage("completed",temp.sort((a, b) => (a.id > b.id) ? 1 : -1));
+      // this.setState({completed: temp.sort((a, b) => (a.id > b.id) ? 1 : -1)}, function () {
+      //   console.log("check a plan");
+      // });
+      // this.updateLocalStorage("completed",temp.sort((a, b) => (a.id > b.id) ? 1 : -1));
+      await this.updateCompleted(temp.sort((a, b) => (a.id > b.id) ? 1 : -1));
+
+      
     }
     
-    uncheckPlans(id){
+    async uncheckPlans(id){
       const plans = this.state.plans;
       const temp = this.state.completed;
       const updateComplete = temp.filter(function(plan){
         return plan.id != id;
       })
-      this.setState({completed: updateComplete}, function () {
-        console.log("uncheck a plan");
-    });
-      this.updateLocalStorage("completed",updateComplete);
+    //   this.setState({completed: updateComplete}, function () {
+    //     console.log("uncheck a plan");
+    // });
+      await this.updateCompleted(updateComplete);
+      // this.updateLocalStorage("completed",updateComplete);
   
       
       for (var i=0; i<plans.length; i++){
@@ -244,6 +267,7 @@ class MainPage extends React.Component {
             checked: false
           }
           plans[i] = newUncheck;
+          await this.updatePlan(plans);
         }
       }
     }
@@ -275,7 +299,7 @@ class MainPage extends React.Component {
 
                     <div className = 'content'> 
                     {this.state.selector == 1 && (<Timeline journals={this.state.journals}  username={this.state.username} tracker={this.state.tracker} content={this.state.content}/>)}
-                    {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} 
+                    {this.state.selector == 2 && (<Plan plans={this.state.plans} completed={this.state.completed} count={this.state.count}
                                                         completePlans={this.completePlans} uncheckPlans={this.uncheckPlans}
                                                         addPlans={this.addPlans}
                                                         deletePlans={this.deletePlans}

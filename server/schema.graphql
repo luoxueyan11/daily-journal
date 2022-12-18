@@ -90,5 +90,6 @@ type Query {
 type Mutation {
 	addUser(user: InputUser!): User!
     addData(data: InputData!): Data!
-    updateData(email:String!, field:String!, data:InputPlan!):Boolean!
+    updatePlan(email:String!, data:[InputPlan]!):Boolean!
+    updateCompleted(email:String!, data:[InputCompleted]!):Boolean
 }
