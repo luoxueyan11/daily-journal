@@ -65,7 +65,6 @@ class App extends React.Component {
     if (data) {
       this.setState({ users: data.listUsers });
     };
-    console.log(this.state.users);
 
     const dataquery = `query {
       listData {
@@ -84,7 +83,6 @@ class App extends React.Component {
     if (data2) {
       this.setState({ data: data2.listData });
     };
-    console.log(this.state.data);  
   }
 
 
@@ -97,8 +95,8 @@ class App extends React.Component {
     this.setState({data:data});
   }
 
+  // add a new user into database
   async updateUsers(newUser) {
-
     const query = `mutation addUser($user: InputUser!) {
       addUser(user: $user) {
         name
@@ -110,9 +108,6 @@ class App extends React.Component {
       password: newUser.password,
     };
     const new_user = await graphQLFetch(query, {user});
-    // if (new_user){
-    //   this.loadData();
-    // }
 
     const data_query = `mutation addData($data: InputData!) {
       addData(data: $data) {
@@ -134,10 +129,12 @@ class App extends React.Component {
 
   }
 
+  // user logs in
   logInUser(userName) {
     this.setState({ user: userName })
   }
 
+  // user logs out
   logOutUser() {
     this.setState({ user: "" })
   }
