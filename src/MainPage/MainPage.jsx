@@ -58,8 +58,8 @@ class MainPage extends React.Component {
     this.setTracker = this.setTracker.bind(this);
     } 
 
-    async componentDidMount() {
-      await this.loadData();
+    componentDidMount() {
+      this.loadData();
       // const userSpace = this.getUserSpace(this.props.user);
       // const userSpace = this.state.data.find(u => u.user == this.props.user);
       // if(userSpace){
@@ -92,17 +92,24 @@ class MainPage extends React.Component {
         }
       }`;
       const result = await graphQLFetch(dataquery);
+      console.log("result:",result);
+      console.log("result.listData:",result.listData);
       if (result) {
-        this.setState({ data: result.listData});
-        const data = this.state.data;
-        const userdata = data.find(u => u.user == this.props.user);
-        console.log("this.state.data:",data);
-        this.setState({plans:userdata.plans});
-        this.setState({completed:userdata.completed});
-        this.setState({journals:userdata.allJournals});
-        this.setState({count:userdata.count});
-        this.setState({username:userdata.username});
-        this.setState({email:userdata.user});
+        
+        // const data = this.state.data;
+        // console.log("this.state.data:",this.state.data);
+        const userdata = result.listData.filter(u => u.user == this.props.user)[0];
+        console.log("find userdata:",userdata);
+        if (userdata) {
+          this.setState({plans:userdata.plans});
+          this.setState({completed:userdata.completed});
+          this.setState({journals:userdata.allJournals});
+          this.setState({count:userdata.count});
+          this.setState({username:userdata.username});
+          this.setState({email:userdata.user});
+          this.setState({ data: result.listData});
+        }
+
         // console.log(this.state.plans);
         // console.log(this.state.completed);
         console.log("this.state.data.plans:",userdata.plans);
@@ -188,20 +195,7 @@ class MainPage extends React.Component {
 
 
 
-    addJournal(journal) {
-      const temp = this.state.journals;
-      temp.push(journal);
-      this.setState({journals:temp});
-      console.log(temp)
-    }
 
-    deleteJournal(id){
-      const temp = this.state.journals;
-      const updateJournals = temp.filter(function(journal){
-        return journal.id != id;
-      })  
-      this.setState({journals:updateJournals});
-    }
 
 
 
@@ -289,6 +283,41 @@ class MainPage extends React.Component {
           await this.updatePlan(plans);
         }
       }
+    }
+
+
+    addJournal(journal) {
+      const temp = this.state.journals;
+      console.log("addJournal:",journal);
+      console.log("addJournal:",this.state.tracker);
+      if (this.state.tracker.includes(journal.id)){
+        for (var i=0; i<temp.length; i++){
+          if (temp[i].id == journal.id){
+            temp[i] = {
+              id: temp[i].id,
+              startTime: temp[i].startTime,
+              endTime: temp[i].endTime,
+              description: temp[i].description,
+              content: journal.content
+            }
+            break;
+          }
+        } 
+      } else {
+        temp.push(journal);
+      }
+
+      this.setState({journals:temp});
+      console.log("addJournal:",temp)
+    
+  }
+
+    deleteJournal(id){
+      const temp = this.state.journals;
+      const updateJournals = temp.filter(function(journal){
+        return journal.id != id;
+      })  
+      this.setState({journals:updateJournals});
     }
 
     setJournal(contents) {

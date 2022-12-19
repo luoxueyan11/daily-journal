@@ -110,9 +110,9 @@ class App extends React.Component {
       password: newUser.password,
     };
     const new_user = await graphQLFetch(query, {user});
-    if (new_user){
-      this.loadData();
-    }
+    // if (new_user){
+    //   this.loadData();
+    // }
 
     const data_query = `mutation addData($data: InputData!) {
       addData(data: $data) {
@@ -128,7 +128,7 @@ class App extends React.Component {
       count:0
     }
     const new_data = await graphQLFetch(data_query, {data});
-    if (new_data){
+    if (new_user && new_data){
       this.loadData();
     }
 

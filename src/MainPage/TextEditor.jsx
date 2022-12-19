@@ -23,13 +23,12 @@ function TextEditor(props){
             id : id,
             startTime : start,
             endTime : end,
-            // time: "16:00 to 18:00",
             description: descrip,
             content: delta
         };
         handleJournalUpdate(delta);
-        handleTracker(id);
         handleJournalAdd(j, delta);
+        handleTracker(id);
     };
 
     var toolbarOptions = [
@@ -60,7 +59,7 @@ function TextEditor(props){
     } else {
         var beginning_content = props.content[props.tracker.lastIndexOf(id)]
     }
-
+   
     // Initialize the contents in editor using the description in PLAN page
     useEffect(() => {
         if (quill && props.tracker.includes(id)) {

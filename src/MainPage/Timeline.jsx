@@ -14,7 +14,7 @@ function Timeline(props){
                 Id: journals[i].id,
                 Title: journals[i].description,
                 Date: journals[i].startTime + " to " + journals[i].endTime,
-                Date: journals[i].time,
+
                 Content: journals[i].content,
             }
             posts.push(p);
@@ -47,7 +47,8 @@ function Timeline(props){
                                         <div>{item.Title}</div>
                                         <div className = "date">{item.Date}</div>
                                         <>                                        
-                                        <ReactQuill theme="snow" value={contents} />
+                                        {/* <ReactQuill theme="snow" value={contents} /> */}
+                                        <ReactQuill theme="snow" value={item.Content} />
                                         </>
                                         <hr></hr>
                                         <br></br>
