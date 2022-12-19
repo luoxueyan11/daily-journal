@@ -103,7 +103,7 @@ class MainPage extends React.Component {
         if (userdata) {
           this.setState({plans:userdata.plans});
           this.setState({completed:userdata.completed});
-          this.setState({journals:userdata.allJournals});
+          // this.setState({journals:userdata.allJournals});
           this.setState({count:userdata.count});
           this.setState({username:userdata.username});
           this.setState({email:userdata.user});
@@ -288,8 +288,9 @@ class MainPage extends React.Component {
 
     addJournal(journal) {
       const temp = this.state.journals;
-      console.log("addJournal:",journal);
-      console.log("addJournal:",this.state.tracker);
+      console.log("addJournal:journal:",journal);
+      console.log("addJournal:this.state.tracker",this.state.tracker);
+      console.log("addJournal:temp",temp);
       if (this.state.tracker.includes(journal.id)){
         for (var i=0; i<temp.length; i++){
           if (temp[i].id == journal.id){
@@ -303,12 +304,15 @@ class MainPage extends React.Component {
             break;
           }
         } 
+        this.setState({journals:temp});
+        console.log("this.state.journals:",this.state.journals)
       } else {
         temp.push(journal);
+        this.setState({journals:temp});
+        console.log("this.state.journals:",this.state.journals)
       }
 
-      this.setState({journals:temp});
-      console.log("addJournal:",temp)
+      
     
   }
 
